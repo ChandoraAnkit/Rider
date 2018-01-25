@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="com.github.jd-alexander:library-1.1.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/library-1.1.0.aar/3a98562c22bcfd170fd5d5fd0318d713/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/library-1.1.0.aar/3a98562c22bcfd170fd5d5fd0318d713/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

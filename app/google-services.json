@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1011039475622",
+    "firebase_url": "https://rider-de7e1.firebaseio.com",
+    "project_id": "rider-de7e1",
+    "storage_bucket": "rider-de7e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011039475622:android:8426c696a1072200",
+        "android_client_info": {
+          "package_name": "com.example.chandora.rider"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011039475622-e119mo99cq5alo02cnnmcqi2m6ht0bsa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chandora.rider",
+            "certificate_hash": "fcf3b4bb320c62cdbff88588defc16c295d29fb1"
+          }
+        },
+        {
+          "client_id": "1011039475622-t4cumcceg8humon1vdi2kli9eba0vrh6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf4D60fBqI8T6un-MpqhhdpIjA4kqGQHM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1011039475622-t4cumcceg8humon1vdi2kli9eba0vrh6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
