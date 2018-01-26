@@ -14,53 +14,68 @@
         tools:context="com.example.chandora.rider.CustomersMapActivity" />
 
     <RelativeLayout
+        android:id="@+id/relative_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btn_logout_cust"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/buttons_cust"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <Button
+                android:id="@+id/btn_logout_cust"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="logout" />
+
+            <Button
+                android:id="@+id/btn_history_cust"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="History" />
+
+
+            <Button
+                android:id="@+id/btn_settings_cust"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Settings" />
+
+
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="logout" />
+            android:layout_below="@+id/buttons_cust">
 
-
-        <Button
-            android:id="@+id/btn_settings_cust"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_gravity="right"
-            android:layout_height="wrap_content"
-            android:text="Settings" />
-
-<android.support.v7.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_below="@+id/btn_settings_cust"
-
-    android:layout_height="wrap_content">
-
-    <fragment
-        android:id="@+id/place_autocomplete_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
-        />
-</android.support.v7.widget.CardView>
+            <fragment
+                android:id="@+id/place_autocomplete_fragment"
+                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.v7.widget.CardView>
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
+
         <LinearLayout
             android:id="@+id/driver_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:visibility="gone"
             android:background="@android:color/white"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/driver_profile_view"
@@ -81,61 +96,68 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="10dp"
-                    android:textSize="20sp"
-                    android:paddingTop="20dp" />
+                    android:paddingTop="20dp"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/driver_no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="10dp"
-                    android:textSize="20sp"
-                    android:paddingTop="20dp" />
+                    android:paddingTop="20dp"
+                    android:textSize="20sp" />
+
                 <TextView
                     android:id="@+id/driver_car"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="10dp"
-                    android:textSize="20sp"
-                    android:paddingTop="20dp" />
+                    android:paddingTop="20dp"
+                    android:textSize="20sp" />
             </LinearLayout>
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
+
             <RadioGroup
                 android:id="@+id/radio_group_cust"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
                 <RadioButton
                     android:id="@+id/rider_x_cust"
                     android:layout_width="wrap_content"
-                    android:text="Rider X"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content" />
+                    android:text="Rider X" />
+
                 <RadioButton
                     android:id="@+id/rider_black_cust"
                     android:layout_width="wrap_content"
-                    android:text="Rider Black"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content" />
+                    android:text="Rider Black" />
+
                 <RadioButton
                     android:id="@+id/rider_xl_cust"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Rider XL"
-                    android:layout_height="wrap_content" />
+                    android:text="Rider XL" />
             </RadioGroup>
+
             <Button
                 android:id="@+id/btn_request"
-                android:text="CALL rider"
-                android:layout_gravity="bottom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="CALL rider" />
 
         </LinearLayout>
 
