@@ -74,7 +74,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
     private int radius = 1000;
     private boolean isDriverFound = false;
     private String driverFoundId;
-    private Marker mDriverMarker;
+    private Marker mPickupMarker;
     private RadioGroup mRadioGroup;
 
     String destination;
@@ -134,6 +134,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CustomersMapActivity.this,HistoryActivity.class);
+                intent.putExtra("customerOrDriver","Customers");
                 startActivity(intent);
                 return;
             }
@@ -163,7 +164,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
 
                     pickupLocation = new LatLng(mLocation.getLatitude(), mLocation.getLongitude());
 
-                    mDriverMarker = mMap.addMarker(new MarkerOptions().title("Pickup location!").position(pickupLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                    mPickupMarker = mMap.addMarker(new MarkerOptions().title("Pickup location!").position(pickupLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
                     mMap.addMarker(new MarkerOptions().title("Pickup location!").position(pickupLocation));
 
@@ -213,15 +214,16 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
                 Log.i(TAG, "onKeyEntered: ");
                 if (!isDriverFound && requestBoolean) {
                     DatabaseReference mCustomerDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(key);
-                    mCustomerDatabase.addValueEventListener(new ValueEventListener() {
+                    mCustomerDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            HashMap<String, Object> driverMap = (HashMap<String, Object>) dataSnapshot.getValue();
-                            if (isDriverFound){
+                            if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0){
+                                HashMap<String, Object> driverMap = (HashMap<String, Object>) dataSnapshot.getValue();
+                            if (isDriverFound) {
                                 return;
                             }
 
-                            if (driverMap.get("service").equals(requestService)){
+                            if (driverMap.get("service").equals(requestService)) {
 
                                 isDriverFound = true;
                                 driverFoundId = dataSnapshot.getKey();
@@ -230,9 +232,9 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
                                 String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                 HashMap hmap = new HashMap();
                                 hmap.put("customerRideId", userId);
-                                hmap.put("destination",destination);
+                                hmap.put("destination", destination);
                                 hmap.put("destinationLat", destinationLatLng.latitude);
-                                hmap.put("destinationLng",destinationLatLng.longitude);
+                                hmap.put("destinationLng", destinationLatLng.longitude);
                                 driverRef.updateChildren(hmap);
 
                                 getDriverLocation();
@@ -241,7 +243,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
                                 mRequestBtn.setText("Looking for driver's location...");
 
                             }
-
+                        }
 
                         }
 
@@ -291,27 +293,49 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
 
         mDriverLayout.setVisibility(View.VISIBLE);
         DatabaseReference mDriverDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(driverFoundId);
-        mDriverDatabase.addValueEventListener(new ValueEventListener() {
+        mDriverDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
-                    HashMap<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
+//                    HashMap<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
 
-                    if (map.get("name") != null) {
-                        String mName = map.get("name").toString();
+//                    if (map.get("name") != null) {
+//                        String mName = map.get("name").toString();
+//                        mDriverName.setText(mName);
+//                    }
+//                    if (map.get("phone") != null) {
+//                        String mPhone = map.get("phone").toString();
+//                        mDriverPhone.setText(mPhone);
+//                    }
+//                    if (map.get("car") != null) {
+//                        String mCar = map.get("car").toString();
+//                        mDriverCar.setText(mCar);
+//                    }
+//
+//                    if (map.get("profileImageUrl") != null) {
+//                        String mProfileImageUrl = map.get("profileImageUrl").toString();
+//                        Log.i(TAG, "onDataChange: "+mProfileImageUrl);
+//                        Picasso.with(getApplicationContext()).load(mProfileImageUrl).into(mProfileImage);
+//
+//
+//                    }
+
+
+                    if (dataSnapshot.child("name") != null) {
+                        String mName = dataSnapshot.child("name").getValue().toString();
                         mDriverName.setText(mName);
                     }
-                    if (map.get("phone") != null) {
-                        String mPhone = map.get("phone").toString();
+                    if (dataSnapshot.child("phone") != null) {
+                        String mPhone = dataSnapshot.child("phone").getValue().toString();
                         mDriverPhone.setText(mPhone);
                     }
-                    if (map.get("car") != null) {
-                        String mCar = map.get("car").toString();
+                    if (dataSnapshot.child("car") != null) {
+                        String mCar = dataSnapshot.child("car").getValue().toString();
                         mDriverCar.setText(mCar);
                     }
 
-                    if (map.get("profileImageUrl") != null) {
-                        String mProfileImageUrl = map.get("profileImageUrl").toString();
+                    if (dataSnapshot.child("profileImageUrl") != null) {
+                        String mProfileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
                         Log.i(TAG, "onDataChange: "+mProfileImageUrl);
                         Picasso.with(getApplicationContext()).load(mProfileImageUrl).into(mProfileImage);
 
@@ -379,8 +403,8 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
         GeoFire geoFire = new GeoFire(ref);
         geoFire.removeLocation(userId);
 
-        if (mDriverMarker != null){
-            mDriverMarker.remove();
+        if (mPickupMarker != null){
+            mPickupMarker.remove();
         }
 
 
@@ -393,6 +417,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
     }
 
 
+    Marker mDriverMarker;
     DatabaseReference driverLocationRef;
     ValueEventListener driverLocationRefListener;
 
@@ -438,7 +463,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
                         mRequestBtn.setText("Driver's found at " + String.valueOf(dis));
                     }
 
-                    mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLatLng).title("Your driver").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                    mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLatLng).title("Your driver").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
                 }
 

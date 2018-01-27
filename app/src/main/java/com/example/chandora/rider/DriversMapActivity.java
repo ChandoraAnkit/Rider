@@ -78,6 +78,7 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
     private Marker mCustomerMarker;
     private Marker mPickupMarker;
     private Button mRideStatus;
+    LatLng pickUpLatLng;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -205,9 +206,21 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
         map.put("Driver",userId);
         map.put("Customer",customerId);
         map.put("Rating",0);
+        map.put("Timestamp",getCurrentTime());
+        map.put("Destination",destination);
+        map.put("Location/From/Lat",pickUpLatLng.latitude);
+        map.put("Location/From/Lng",pickUpLatLng.longitude);
+        map.put("Location/To/Lat",destinationLatLng.latitude);
+        map.put("Location/To/Lng",destinationLatLng.longitude);
+
+
         historyRef.child(requestId).updateChildren(map);
 
 
+    }
+
+    private Long getCurrentTime() {
+        return System.currentTimeMillis()/1000;
     }
 
     private boolean checkPermission() {
@@ -346,7 +359,7 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
                     if (list.get(1) != null) {
                         locationLng = Double.parseDouble(list.get(1).toString());
                     }
-                    LatLng pickUpLatLng = new LatLng(locationLat, locationLng);
+                     pickUpLatLng = new LatLng(locationLat, locationLng);
 
                     if (mPickupMarker != null) {
                         mPickupMarker.remove();
