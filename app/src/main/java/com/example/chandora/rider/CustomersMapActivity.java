@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.firebase.geofire.GeoFire;
@@ -80,6 +81,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
     String destination;
     private String requestService;
     private LatLng destinationLatLng;
+    private RatingBar mRatingBar;
 
 
     @Override
@@ -97,6 +99,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
         mDriverLayout = (LinearLayout)findViewById(R.id.driver_info);
         mRadioGroup = (RadioGroup) findViewById(R.id.radio_group_cust);
         mHistory = (Button) findViewById(R.id.btn_history_cust);
+        mRatingBar = (RatingBar)findViewById(R.id.rating_bar_driv);
 
         destinationLatLng = new LatLng(0.0,0.0);
 
@@ -163,11 +166,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
                     geoFire.setLocation(userId, new GeoLocation(mLocation.getLatitude(), mLocation.getLongitude()));
 
                     pickupLocation = new LatLng(mLocation.getLatitude(), mLocation.getLongitude());
-
                     mPickupMarker = mMap.addMarker(new MarkerOptions().title("Pickup location!").position(pickupLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-
-                    mMap.addMarker(new MarkerOptions().title("Pickup location!").position(pickupLocation));
-
 
                     mRequestBtn.setText("Getting your driver...");
                     getClosestDriver();
@@ -297,28 +296,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
-//                    HashMap<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
 
-//                    if (map.get("name") != null) {
-//                        String mName = map.get("name").toString();
-//                        mDriverName.setText(mName);
-//                    }
-//                    if (map.get("phone") != null) {
-//                        String mPhone = map.get("phone").toString();
-//                        mDriverPhone.setText(mPhone);
-//                    }
-//                    if (map.get("car") != null) {
-//                        String mCar = map.get("car").toString();
-//                        mDriverCar.setText(mCar);
-//                    }
-//
-//                    if (map.get("profileImageUrl") != null) {
-//                        String mProfileImageUrl = map.get("profileImageUrl").toString();
-//                        Log.i(TAG, "onDataChange: "+mProfileImageUrl);
-//                        Picasso.with(getApplicationContext()).load(mProfileImageUrl).into(mProfileImage);
-//
-//
-//                    }
 
 
                     if (dataSnapshot.child("name") != null) {
@@ -338,6 +316,21 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
                         String mProfileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
                         Log.i(TAG, "onDataChange: "+mProfileImageUrl);
                         Picasso.with(getApplicationContext()).load(mProfileImageUrl).into(mProfileImage);
+                    }
+                    int ratingSum = 0;
+                    int ratingTotal = 0;
+                    float ratingAvg;
+
+                    if (dataSnapshot.child("Rating") != null){
+                        for(DataSnapshot child : dataSnapshot.child("Rating").getChildren()){
+                            ratingSum = ratingSum + Integer.valueOf(child.getValue().toString());
+                            ratingTotal++;
+                        }
+
+                        if (ratingTotal != 0){
+                            ratingAvg = ratingSum/ratingTotal;
+                            mRatingBar.setRating(ratingAvg);
+                        }
 
 
                     }
@@ -463,7 +456,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
                         mRequestBtn.setText("Driver's found at " + String.valueOf(dis));
                     }
 
-                    mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLatLng).title("Your driver").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLatLng).title("Driver position").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
                 }
 

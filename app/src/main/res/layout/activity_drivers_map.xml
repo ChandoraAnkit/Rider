@@ -11,26 +11,38 @@
         android:layout_height="match_parent"
         tools:context="com.example.chandora.rider.DriversMapActivity" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btn_logout"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn_logout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="logout" />
+            <Button
+                android:id="@+id/btn_settings_driv"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Settings" />
+        </LinearLayout>
+        <Switch
+            android:layout_gravity="center"
+            android:text="Working"
+            android:id="@+id/switch_btn"
+            android:padding="5dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="logout" />
+            android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/btn_settings_driv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Settings" />
+    </LinearLayout>
 
-
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

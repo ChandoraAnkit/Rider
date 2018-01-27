@@ -6,17 +6,18 @@
     android:orientation="vertical"
     tools:context="com.example.chandora.rider.HistorySingleActivity">
 
-    <FrameLayout
+
+    <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="200dp"></FrameLayout>
-
+        android:layout_height="200dp"
+        tools:context="com.example.chandora.rider.HistorySingleActivity" />
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:id="@+id/ride_location"
@@ -48,8 +49,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/history_driver_image"
@@ -83,7 +83,13 @@
                 android:text="Phone" />
 
         </LinearLayout>
-
-
     </LinearLayout>
+    <RatingBar
+        android:id="@+id/rating_bar"
+        android:stepSize="1"
+        android:visibility="gone"
+        android:numStars="5"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>

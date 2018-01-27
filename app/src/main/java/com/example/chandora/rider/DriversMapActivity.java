@@ -13,8 +13,10 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +58,7 @@ import java.util.Map;
 
 public class DriversMapActivity extends FragmentActivity implements OnMapReadyCallback
         , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener ,RoutingListener{
+
     private static final String TAG = DriversMapActivity.class.getSimpleName();
     private static final int REQUEST_CODE = 1;
     int status =0;
@@ -73,9 +76,9 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Location mLocation;
+    private Switch mSwitchBtn;
     private LocationRequest mLocationRequest;
     private Button mLogOutBtn,mSettings;
-    private Marker mCustomerMarker;
     private Marker mPickupMarker;
     private Button mRideStatus;
     LatLng pickUpLatLng;
@@ -99,6 +102,7 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
         mProfileImage = findViewById(R.id.customer_profile_view);
         mCustomerDest = findViewById(R.id.customer_destination);
         mRideStatus = findViewById(R.id.ride_status);
+        mSwitchBtn = findViewById(R.id.switch_btn);
 
         polylines = new ArrayList<>();
 
@@ -107,12 +111,20 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
             userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
 
-
-        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference("driversAvailable");
         geoFire = new GeoFire(databaseReference);
 
 
+        mSwitchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked){
+                    connectDriver();
+                }else {
+                    disconnectDriver();
+                }
+            }
+        });
         mLogOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,16 +150,12 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
                             getRouteToMarker(destinationLatLng);
                         }
                         mRideStatus.setText("Ride completed!");
-
-
                     break;
 
                     case 2:
                         recordRide();
                         endRide();
                         break;
-
-
                 }
 
             }
@@ -192,6 +200,7 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
         mProfileImage.setImageResource(R.drawable.ic_launcher_background);
 
     }
+
     private void recordRide(){
         String userId  = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference driverRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(userId).child("history");
@@ -256,7 +265,6 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
                     getAssignedCustomerPickupLocation();
                     getAssignedCustomerDestination();
                     getAssignedCustomerInfo();
-
 
                 } else {
 
@@ -446,14 +454,16 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
         }
 
     }
-
+    private void connectDriver(){
+        if (checkPermission())
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+    }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Log.i(TAG, "onConnected: ");
         mLocationRequest = createLocationRequest();
-        if (checkPermission())
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+
 
     }
 
@@ -474,18 +484,7 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setFastestInterval(1000);
     }
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-
-        if (!isLoggingOut) {
-            disconnectDriver();
-        }
-
-    }
+    
 
     @Override
     public void onRoutingFailure(RouteException e) {
