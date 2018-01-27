@@ -49,7 +49,10 @@ public class HistorySingleActivity extends AppCompatActivity implements OnMapRea
     private String rideId,currentRideId,customerId="",customerOrDriver,driverId;
     private DatabaseReference historyRideInfo;
     private LatLng destinationLatLng,pickupLatLng;
+    private String distance;
+    private Double ridePrice;
     private RatingBar mRatingbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +108,13 @@ public class HistorySingleActivity extends AppCompatActivity implements OnMapRea
                         }
                         if (child.getKey().equals("Destination")){
                             mRideLocation.setText(child.getValue().toString());
+                        }
+                        if (child.getKey().equals("Distance")){
+                            distance = child.getValue().toString();
+                            mRideDistance.setText(distance.substring(0,Math.min(distance.length(),5)));
+
+                            ridePrice = Double.valueOf(distance)* 0.5;
+                            Log.i(TAG, "onDataChange: "+ridePrice);
                         }
                         if (child.getKey().equals("Rating")){
                             mRatingbar.setRating(Integer.valueOf(child.getValue().toString()));
@@ -226,7 +236,7 @@ public class HistorySingleActivity extends AppCompatActivity implements OnMapRea
         mMap.animateCamera(cameraUpdate);
 
         mMap.addMarker(new MarkerOptions().title("Pickup").position(pickupLatLng).icon(BitmapDescriptorFactory.defaultMarker()));
-        mMap.addMarker(new MarkerOptions().title("Destinaation").position(destinationLatLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        mMap.addMarker(new MarkerOptions().title("Destination").position(destinationLatLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
 
 

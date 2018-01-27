@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         if (!checkPermission()){
             requestPermission();
         }
+        startService(new Intent(MainActivity.this,OnAppKilled.class));
     }
     private boolean checkPermission(){
         return (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)== PackageManager.PERMISSION_GRANTED);

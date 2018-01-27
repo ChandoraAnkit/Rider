@@ -82,6 +82,8 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
     private Marker mPickupMarker;
     private Button mRideStatus;
     LatLng pickUpLatLng;
+    float rideDis;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,11 +134,10 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
                 isLoggingOut = true;
                 disconnectDriver();
 
-
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(DriversMapActivity.this, MainActivity.class));
                 finish();
-                return;
+
             }
         });
         mRideStatus.setOnClickListener(new View.OnClickListener() {
@@ -165,7 +166,7 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(DriversMapActivity.this, DriverSettingsActivity.class));
-                return;
+
             }
         });
 
@@ -193,6 +194,7 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
         if (assignedCustomerLocationRef != null) {
             assignedCustomerLocationRef.removeEventListener(assignedCustomerLocationListener);
         }
+        rideDis = 0;
         mCustomerLayout.setVisibility(View.GONE);
         mCustomerPhone.setText("");
         mCustomerName.setText("");
@@ -211,12 +213,14 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
         driverRef.child(requestId).setValue(true);
         custRef.child(requestId).setValue(true);
 
+
         HashMap map = new HashMap();
         map.put("Driver",userId);
         map.put("Customer",customerId);
         map.put("Rating",0);
         map.put("Timestamp",getCurrentTime());
         map.put("Destination",destination);
+        map.put("Distance",rideDis);
         map.put("Location/From/Lat",pickUpLatLng.latitude);
         map.put("Location/From/Lng",pickUpLatLng.longitude);
         map.put("Location/To/Lat",destinationLatLng.latitude);
@@ -247,7 +251,6 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
         databaseReference = FirebaseDatabase.getInstance().getReference("driversAvailable");
         geoFire = new GeoFire(databaseReference);
         geoFire.removeLocation(userId);
-
         mCustomerDest.setText("Destination--");
 
     }
@@ -421,6 +424,9 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
     @Override
     public void onLocationChanged(Location location) {
         Log.i(TAG, "onLocationChanged: ");
+        if (!customerId.equals("")){
+            rideDis += mLocation.distanceTo(location)/1000;
+        }
         mLocation = location;
 
 
@@ -484,7 +490,7 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setFastestInterval(1000);
     }
-    
+
 
     @Override
     public void onRoutingFailure(RouteException e) {
