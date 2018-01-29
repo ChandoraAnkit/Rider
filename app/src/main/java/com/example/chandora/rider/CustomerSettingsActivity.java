@@ -36,6 +36,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class CustomerSettingsActivity extends AppCompatActivity {
     String userId;
     String mName;
@@ -44,9 +46,10 @@ public class CustomerSettingsActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     DatabaseReference mCustomerDatabase;
-    private Button mConfirm, mBack;
+    private Button mConfirm;
+
     private EditText mNameField, mPhoneField;
-    private ImageView mProfileImage;
+    private CircleImageView mProfileImage;
     private Uri imageUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +60,9 @@ public class CustomerSettingsActivity extends AppCompatActivity {
         mPhoneField = findViewById(R.id.phone);
 
         mConfirm = findViewById(R.id.comfirm);
-        mBack = findViewById(R.id.back);
 
-        mProfileImage =(ImageView)findViewById(R.id.profile_image);
+
+        mProfileImage =(CircleImageView) findViewById(R.id.profile_image);
 
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
@@ -74,13 +77,7 @@ public class CustomerSettingsActivity extends AppCompatActivity {
             }
         });
 
-        mBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                return;
-            }
-        });
+
         mProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -171,7 +168,7 @@ public class CustomerSettingsActivity extends AppCompatActivity {
                     }
                     if (map.get("profileImageUrl") != null){
                         mProfileImageUrl = map.get("profileImageUrl").toString();
-                        Picasso.with(getApplication()).load(mProfileImageUrl).into(mProfileImage);
+                        Picasso.with(getApplication()).load(mProfileImageUrl).placeholder(R.drawable.default_user).into(mProfileImage);
 
                     }
                 }

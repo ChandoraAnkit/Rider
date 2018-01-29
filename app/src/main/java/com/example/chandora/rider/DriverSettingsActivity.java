@@ -38,6 +38,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class DriverSettingsActivity extends AppCompatActivity {
     String userId;
     String mName;
@@ -48,9 +50,9 @@ public class DriverSettingsActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     DatabaseReference mDriverDatabase;
-    private Button mConfirm, mBack;
+    private Button mConfirm;
     private EditText mNameField, mPhoneField,mCarField;
-    private ImageView mProfileImage;
+    private CircleImageView mProfileImage;
     private Uri imageUri;
     RadioGroup mRadioGroup;
     @Override
@@ -64,9 +66,9 @@ public class DriverSettingsActivity extends AppCompatActivity {
 
 
         mConfirm = findViewById(R.id.comfirm_driv);
-        mBack = findViewById(R.id.back_driv);
 
-        mProfileImage =(ImageView)findViewById(R.id.profile_image_driv);
+
+        mProfileImage =(CircleImageView) findViewById(R.id.profile_image_driv);
         mRadioGroup = (RadioGroup) findViewById(R.id.radio_group);
 
         mAuth = FirebaseAuth.getInstance();
@@ -82,13 +84,7 @@ public class DriverSettingsActivity extends AppCompatActivity {
             }
         });
 
-        mBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                return;
-            }
-        });
+
         mProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -215,7 +211,7 @@ public class DriverSettingsActivity extends AppCompatActivity {
                     }
                     if (map.get("profileImageUrl") != null){
                         mProfileImageUrl = map.get("profileImageUrl").toString();
-                        Picasso.with(getApplication()).load(mProfileImageUrl).into(mProfileImage);
+                        Picasso.with(getApplication()).load(mProfileImageUrl).placeholder(R.drawable.default_user).into(mProfileImage);
 
                     }
                 }

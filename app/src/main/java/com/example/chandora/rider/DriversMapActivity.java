@@ -83,6 +83,7 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
     private Button mRideStatus;
     LatLng pickUpLatLng;
     float rideDis;
+    Marker myMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -428,17 +429,15 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
             rideDis += mLocation.distanceTo(location)/1000;
         }
         mLocation = location;
+        if (myMarker !=null){
+            myMarker.remove();
+        }
 
 
-        mMap.addMarker(new MarkerOptions().position(new LatLng(mLocation.getLatitude(), mLocation.getLongitude())).title("my position"));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()), 16));
+        myMarker = mMap.addMarker(new MarkerOptions().title("my position").position(new LatLng(mLocation.getLatitude(), mLocation.getLongitude())));
 
 
-        MarkerOptions mp = new MarkerOptions();
-        mp.position(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()));
-        mp.title("my position");
 
-        mMap.addMarker(mp);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 16));
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();

@@ -1,75 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back_grad"
     android:orientation="vertical"
-    android:padding="10dp"
     tools:context="com.example.chandora.rider.DriverSettingsActivity">
 
-    <ImageView
-        android:id="@+id/profile_image_driv"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@mipmap/ic_launcher" />
-
-    <EditText
-        android:id="@+id/name_driv"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:hint="Name" />
+        android:layout_marginTop="40dp"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/phone_driv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:hint="Phone"
-        android:inputType="number" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image_driv"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:src="@drawable/default_user" />
 
-    <EditText
-        android:id="@+id/car_driv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:hint="Car No"
-      />
-    <RadioGroup
-        android:id="@+id/radio_group"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-        <RadioButton
-            android:id="@+id/rider_x"
-            android:layout_width="wrap_content"
-            android:text="Rider X"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:id="@+id/rider_black"
-            android:layout_width="wrap_content"
-            android:text="Rider Black"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:id="@+id/rider_xl"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:text="Rider XL"
-            android:layout_height="wrap_content" />
-    </RadioGroup>
+        <EditText
+            android:id="@+id/name_driv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:hint="Name"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white" />
+
+        <EditText
+            android:id="@+id/phone_driv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="Phone"
+            android:inputType="number"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white" />
+
+        <EditText
+            android:id="@+id/car_driv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="Car No"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white" />
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rider_x"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Rider X"
+                android:textColor="@android:color/white"
+                android:textSize="17sp" />
+
+            <RadioButton
+                android:id="@+id/rider_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Rider Black"
+                android:textColor="@android:color/white"
+                android:textSize="17sp" />
+
+            <RadioButton
+                android:id="@+id/rider_xl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Rider XL"
+                android:textColor="@android:color/white"
+                android:textSize="17sp" />
+        </RadioGroup>
+    </LinearLayout>
 
     <Button
         android:id="@+id/comfirm_driv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Confirm" />
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/back_round"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="Confirm"
+        android:textColor="@android:color/white" />
 
 
-    <Button
-        android:id="@+id/back_driv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Back" />
-</LinearLayout>
+</RelativeLayout>
