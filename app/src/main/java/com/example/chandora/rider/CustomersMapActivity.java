@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -51,7 +52,9 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.List;
 
-public class CustomersMapActivity extends FragmentActivity implements OnMapReadyCallback
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class CustomersMapActivity extends RootAnimActivity implements OnMapReadyCallback
         , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     private static final String TAG = CustomersMapActivity.class.getSimpleName();
     private static final int REQUEST_CODE = 1;
@@ -68,7 +71,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
 
     private Button mLogOutBtn, mRequestBtn ,mSettings ,mHistory;
     LinearLayout mDriverLayout;
-    ImageView mProfileImage;
+    CircleImageView mProfileImage;
     TextView mDriverName, mDriverPhone, mDriverCar;
 
     private Boolean requestBoolean = false;
@@ -92,7 +95,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
         mLogOutBtn = (Button) findViewById(R.id.btn_logout_cust);
         mRequestBtn = (Button) findViewById(R.id.btn_request);
         mSettings = (Button) findViewById(R.id.btn_settings_cust);
-        mProfileImage = (ImageView)findViewById(R.id.driver_profile_view);
+        mProfileImage = (CircleImageView) findViewById(R.id.driver_profile_view);
         mDriverName = (TextView) findViewById(R.id.driver_name);
         mDriverPhone = (TextView) findViewById(R.id.driver_no);
         mDriverCar = (TextView) findViewById(R.id.driver_car);
@@ -180,6 +183,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
         PlaceAutocompleteFragment autocompleteFragment = (
                 PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override

@@ -40,7 +40,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class DriverSettingsActivity extends AppCompatActivity {
+public class DriverSettingsActivity extends RootAnimActivity {
     String userId;
     String mName;
     String mPhone;
@@ -59,6 +59,9 @@ public class DriverSettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_settings);
+
+        getSupportActionBar().setTitle("Account settings");
+
 
         mNameField = findViewById(R.id.name_driv);
         mPhoneField = findViewById(R.id.phone_driv);

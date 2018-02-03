@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:padding="20dp"
-    android:layout_height="wrap_content">
+
+    android:layout_height="wrap_content"
+
+    android:background="@drawable/back_round"
+    android:orientation="vertical">
 
 
     <TextView
-        android:layout_margin="10dp"
         android:id="@+id/ride_time"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Ankit"
+        android:textColor="@android:color/white"
         android:textSize="20sp"
-        android:layout_height="wrap_content" />
+        android:textStyle="bold" />
 
     <TextView
-        android:layout_margin="10dp"
         android:id="@+id/ride_id"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Chandora"
+        android:textColor="@android:color/white"
         android:textSize="20sp"
-        android:layout_height="wrap_content" />
+        android:textStyle="bold" />
+
 
 </LinearLayout>

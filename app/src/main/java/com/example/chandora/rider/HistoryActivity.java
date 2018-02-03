@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class HistoryActivity extends AppCompatActivity {
+public class HistoryActivity extends RootAnimActivity {
     private RecyclerView mRecyclerView;
     private HistoryAdapter adapter;
     private String customerOrDriver,userId;
@@ -30,10 +30,13 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+        getSupportActionBar().setTitle("Rides history");
+
         mRecyclerView = findViewById(R.id.recycler_view_history);
 
         mRecyclerView.setNestedScrollingEnabled(true);
-        mRecyclerView.setHasFixedSize(true);
+       
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new HistoryAdapter(this,getDataSet());
         mRecyclerView.setAdapter(adapter);

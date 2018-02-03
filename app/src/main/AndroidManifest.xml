@@ -20,25 +20,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            >
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".DriverLoginActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name=".CustomerLoginActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity
+            android:name=".DriverLoginActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".CustomerLoginActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".CustomerSettingsActivity" />
 
         <service
             android:name=".OnAppKilled"
-            android:stopWithTask="false"></service>
+            android:stopWithTask="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -53,12 +54,16 @@
 
         <activity
             android:name=".DriversMapActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:label="@string/title_activity_drivers_map" />
         <activity android:name=".CustomersMapActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             />
         <activity android:name=".DriverSettingsActivity" />
         <activity android:name=".HistoryActivity" />
-        <activity android:name=".HistorySingleActivity"></activity>
+        <activity android:name=".HistorySingleActivity" />
+        <activity android:name=".RootAnimActivity"
+            ></activity>
     </application>
 
 </manifest>

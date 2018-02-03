@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends RootAnimActivity{
 
     private static final int REQUEST_CODE =1 ;
 
@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         if (!checkPermission()){
             requestPermission();
         }
+
         startService(new Intent(MainActivity.this,OnAppKilled.class));
     }
     private boolean checkPermission(){
@@ -34,13 +35,15 @@ public class MainActivity extends AppCompatActivity {
         Intent customerLoginIntent = new Intent(MainActivity.this,CustomerLoginActivity.class);
         startActivity(customerLoginIntent);
         finish();
-        return;
+
+
     }
 
     public void OnDriverBtnClick(View view) {
         Intent driverLoginIntent = new Intent(MainActivity.this,DriverLoginActivity.class);
         startActivity(driverLoginIntent);
         finish();
-        return;
+
+
     }
 }

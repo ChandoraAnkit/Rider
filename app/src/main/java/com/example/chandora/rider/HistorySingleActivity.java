@@ -40,12 +40,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class HistorySingleActivity extends AppCompatActivity implements OnMapReadyCallback,RoutingListener{
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class HistorySingleActivity extends RootAnimActivity implements OnMapReadyCallback,RoutingListener{
     public final static String TAG  = HistorySingleActivity.class.getSimpleName();
     private GoogleMap mMap;
     private SupportMapFragment mSupportMapFragment;
     private TextView mRideLocation,mRideDistance,mRideDate,mDriverName,mDriverPhone;
-    private ImageView  mDriverPhoto;
+    private CircleImageView mDriverPhoto;
     private String rideId,currentRideId,customerId="",customerOrDriver,driverId;
     private DatabaseReference historyRideInfo;
     private LatLng destinationLatLng,pickupLatLng;

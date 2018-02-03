@@ -69,6 +69,7 @@
 
             <fragment
                 android:id="@+id/place_autocomplete_fragment"
+
                 android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -87,7 +88,7 @@
             android:orientation="vertical"
             android:layout_gravity="bottom"
             android:visibility="gone"
-            android:background="@android:color/white"
+            android:background="#CFD8DC"
             android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -95,46 +96,42 @@
                 android:orientation="horizontal"
                >
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/driver_profile_view"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:padding="15dp"
-                    android:src="@mipmap/ic_launcher" />
-
+                    android:src="@drawable/default_user" />
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingLeft="40dp">
+                    android:layout_marginLeft="40dp">
 
 
                     <TextView
                         android:id="@+id/driver_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:text="Ankit"
-                        android:paddingTop="20dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
                         android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/driver_no"
                         android:layout_width="wrap_content"
-                        android:text="Ankit"
-
                         android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="20dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
                         android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/driver_car"
                         android:layout_width="wrap_content"
-                        android:text="Ankit"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="20dp"
+
                         android:textSize="20sp" />
                 </LinearLayout>
             </LinearLayout>

@@ -56,7 +56,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DriversMapActivity extends FragmentActivity implements OnMapReadyCallback
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class DriversMapActivity extends RootAnimActivity implements OnMapReadyCallback
         , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener ,RoutingListener{
 
     private static final String TAG = DriversMapActivity.class.getSimpleName();
@@ -69,7 +71,7 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
     String customerId = "",destination;
     Boolean isLoggingOut = false;
     LinearLayout mCustomerLayout;
-    ImageView mProfileImage;
+    CircleImageView mProfileImage;
     TextView mCustomerName, mCustomerPhone, mCustomerDest;
     DatabaseReference assignedCustomerLocationRef;
     ValueEventListener assignedCustomerLocationListener;
@@ -339,7 +341,7 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
                     }
                     if (map.get("profileImageUrl") != null) {
                         String mProfileImageUrl = map.get("profileImageUrl").toString();
-                        Picasso.with(getApplicationContext()).load(mProfileImageUrl).into(mProfileImage);
+                        Picasso.with(getApplicationContext()).load(mProfileImageUrl).placeholder(R.drawable.default_user).into(mProfileImage);
 
                     }
                 }

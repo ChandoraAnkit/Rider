@@ -51,7 +51,7 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/history_driver_image"
             android:textSize="18sp"
             android:padding="5dp"

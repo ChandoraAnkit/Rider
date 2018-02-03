@@ -55,9 +55,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="@android:color/white"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:background="#CFD8DC"
         android:visibility="gone"
         android:id="@+id/customer_info"
         android:orientation="vertical">
@@ -70,12 +70,12 @@
         android:orientation="horizontal"
        >
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/customer_profile_view"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:padding="15dp"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/default_user" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -88,7 +88,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Destination"
-                    android:paddingBottom="10dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:textSize="20sp" />
 
                 <TextView
@@ -96,8 +97,6 @@
                     android:layout_width="wrap_content"
                     android:text="Name"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="20dp"
                     android:textSize="20sp" />
 
                 <TextView
@@ -105,8 +104,8 @@
                     android:layout_width="wrap_content"
                     android:text="Phone no"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:textSize="20sp" />
 
             </LinearLayout>

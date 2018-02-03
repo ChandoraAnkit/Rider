@@ -38,7 +38,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class CustomerSettingsActivity extends AppCompatActivity {
+public class CustomerSettingsActivity extends RootAnimActivity {
     String userId;
     String mName;
     String mPhone;
@@ -55,6 +55,8 @@ public class CustomerSettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_settings);
+
+        getSupportActionBar().setTitle("Account settings");
 
         mNameField = findViewById(R.id.name);
         mPhoneField = findViewById(R.id.phone);
@@ -86,6 +88,7 @@ public class CustomerSettingsActivity extends AppCompatActivity {
                 startActivityForResult(imageIntent,1);
             }
         });
+
     }
 
     @Override

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back_img"
     android:backgroundTintMode="multiply"
-    android:backgroundTint="#9FA8DA"
     android:orientation="vertical"
+    android:gravity="center"
+    android:backgroundTint="#9FA8DA"
+
     tools:context="com.example.chandora.rider.DriverLoginActivity">
 
 
@@ -15,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/details"
         android:gravity="center"
+        android:layout_marginBottom="60dp"
         android:textColor="@android:color/white"
         android:text="Customer login or signup"
         android:textSize="28sp" />
@@ -25,9 +28,7 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:id="@+id/details"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="50dp"
+
         android:layout_height="wrap_content">
         <EditText
             android:id="@+id/et_email"
@@ -75,6 +76,7 @@
                 android:paddingRight="50dp"
                 android:paddingTop="10dp"
                 android:text="Login"
+                android:textSize="16sp"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
@@ -84,6 +86,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/back_round"
                 android:paddingBottom="10dp"
+                android:textSize="16sp"
                 android:paddingLeft="50dp"
                 android:layout_marginLeft="10dp"
                 android:textColor="@android:color/white"
@@ -101,5 +104,5 @@ l
 
 
 
-</RelativeLayout>
+</LinearLayout>
 
