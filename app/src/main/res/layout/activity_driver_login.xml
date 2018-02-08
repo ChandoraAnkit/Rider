@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back_img"
-    android:backgroundTintMode="multiply"
     android:backgroundTint="#9FA8DA"
-    android:orientation="vertical"
+    android:backgroundTintMode="multiply"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context="com.example.chandora.rider.DriverLoginActivity">
 
 
@@ -16,54 +16,56 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"
         android:gravity="center"
-        android:textColor="@android:color/white"
         android:text="Driver login or signup"
+        android:textColor="@android:color/white"
         android:textSize="28sp" />
 
 
-
     <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/details"
 
-        android:layout_height="wrap_content">
+        android:id="@+id/details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/et_email"
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:textColorHint="@android:color/white"
-            android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_perm_identity_white_24dp"
             android:drawablePadding="10dp"
             android:hint="Email"
-
-            />
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:textColorHint="@android:color/white" />
 
 
         <EditText
             android:id="@+id/et_passwd"
             android:layout_width="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="20dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:backgroundTint="@android:color/white"
             android:drawableLeft="@drawable/ic_lock_outline_white_24dp"
             android:drawablePadding="10dp"
             android:hint="Password"
+            android:inputType="textPassword"
+            android:maxLines="1"
             android:textColorHint="@android:color/white" />
 
 
         <LinearLayout
+
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:layout_height="wrap_content">
+            android:gravity="center"
+            android:orientation="horizontal">
 
 
             <Button
@@ -75,36 +77,31 @@
                 android:paddingBottom="10dp"
                 android:paddingLeft="50dp"
                 android:paddingRight="50dp"
-                android:textSize="16sp"
                 android:paddingTop="10dp"
                 android:text="Login"
                 android:textColor="@android:color/white"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btn_sign_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:background="@drawable/back_round"
                 android:paddingBottom="10dp"
-                android:textSize="16sp"
                 android:paddingLeft="50dp"
-                android:layout_marginLeft="10dp"
-                android:textColor="@android:color/white"
                 android:paddingRight="40dp"
                 android:paddingTop="10dp"
-                android:text="Sign up" />
+                android:text="Sign up"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
 
 
         </LinearLayout>
 
 
-
-
     </LinearLayout>
-
-
-
 
 
 </LinearLayout>

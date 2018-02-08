@@ -1,10 +1,14 @@
 package com.example.chandora.rider;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +29,8 @@ public class DriverLoginActivity extends RootAnimActivity{
     private String email, password;
 
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private ProgressDialog mDialog;
+    private GpsCheckBroadcasteReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,8 @@ public class DriverLoginActivity extends RootAnimActivity{
         mLogin = findViewById(R.id.btn_login);
         mSignUp = findViewById(R.id.btn_sign_up);
 
+        mDialog = new ProgressDialog(this);
+        receiver = new GpsCheckBroadcasteReceiver();
 
         mAuth = FirebaseAuth.getInstance();
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -59,14 +67,10 @@ public class DriverLoginActivity extends RootAnimActivity{
 
                 email = mEmail.getText().toString();
                 password = mPassword.getText().toString();
-                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(DriverLoginActivity.this, "Failed to login...", Toast.LENGTH_SHORT).show();
-                        }
+                    if (validateDetails(email,password)){
+                        loginDialog();
+                        signInUser(email,password);
                     }
-                });
 
             }
         });
@@ -77,38 +81,87 @@ public class DriverLoginActivity extends RootAnimActivity{
 
                 email = mEmail.getText().toString();
                 password = mPassword.getText().toString();
-                validateDetails(email, password);
+                if(validateDetails(email, password)){
+                    signUpDialog();
+                    createUser(email,password);
+                }
 
             }
         });
     }
+//
+//    private boolean validateDetails(final String email, String password) {
+//        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
+//            Toast.makeText(this, "Fields should not be empty!", Toast.LENGTH_SHORT).show();
+//        }else if(password.length() <=5){
+//            Toast.makeText(this, "Password length must be equal or greater than 7", Toast.LENGTH_SHORT).show();
+//        }else{
+//
+//            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                @Override
+//                public void onComplete(@NonNull Task<AuthResult> task) {
+//
+//                    if (!task.isSuccessful()) {
+//                        Toast.makeText(DriverLoginActivity.this, "Failed to sign up...", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        String userId = mAuth.getCurrentUser().getUid();
+//                        DatabaseReference current_user = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(userId).child("name");
+//                        current_user.setValue(email);
+//                    }
+//                }
+//            });
+//        }
+//    }
 
-    private void validateDetails(final String email, String password) {
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
+    private boolean validateDetails(final String email, String password) {
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Fields should not be empty!", Toast.LENGTH_SHORT).show();
-        }else if(password.length() <=5){
+            return false;
+        } else if (password.length() <= 5) {
             Toast.makeText(this, "Password length must be equal or greater than 7", Toast.LENGTH_SHORT).show();
-        }else{
+            return false;
+        }
+        return true;
+    }
 
-            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    private void createUser(final String email, String password) {
+
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
 
                     if (!task.isSuccessful()) {
+                        mDialog.dismiss();
                         Toast.makeText(DriverLoginActivity.this, "Failed to sign up...", Toast.LENGTH_SHORT).show();
                     } else {
+                        mDialog.dismiss();
                         String userId = mAuth.getCurrentUser().getUid();
                         DatabaseReference current_user = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(userId).child("name");
                         current_user.setValue(email);
                     }
                 }
-            });
-        }
+           });
+
+
+    }
+
+    private void signInUser(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (!task.isSuccessful()) {
+                    mDialog.dismiss();
+                    Toast.makeText(DriverLoginActivity.this, "Failed to login...", Toast.LENGTH_SHORT).show();
+                } else {
+                    mDialog.dismiss();
+                    Toast.makeText(DriverLoginActivity.this, "Successfully login! ", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
-
-    @Override
+        @Override
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthStateListener);
@@ -118,5 +171,39 @@ public class DriverLoginActivity extends RootAnimActivity{
     protected void onStop() {
         super.onStop();
         mAuth.removeAuthStateListener(mAuthStateListener);
+    }
+
+    private void loginDialog(){
+
+        mDialog.setTitle("Signing in...");
+        mDialog.setMessage("You must have got a nice smile ,so always smile... :)");
+        mDialog.show();
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(receiver,new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            unregisterReceiver(receiver);
+        }catch (Exception e){
+            Log.i("Register  exception ",e+"");
+        }
+
+    }
+
+    private void signUpDialog(){
+
+        mDialog.setTitle("Signing up...");
+        mDialog.setMessage("You'r about to becoming a Rider :)");
+        mDialog.show();
+
     }
 }

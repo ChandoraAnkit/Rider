@@ -2,8 +2,10 @@ package com.example.chandora.rider;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -86,6 +88,7 @@ public class DriversMapActivity extends RootAnimActivity implements OnMapReadyCa
     LatLng pickUpLatLng;
     float rideDis;
     Marker myMarker;
+    private GpsCheckBroadcasteReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +111,7 @@ public class DriversMapActivity extends RootAnimActivity implements OnMapReadyCa
         mCustomerDest = findViewById(R.id.customer_destination);
         mRideStatus = findViewById(R.id.ride_status);
         mSwitchBtn = findViewById(R.id.switch_btn);
+        receiver = new GpsCheckBroadcasteReceiver();
 
         polylines = new ArrayList<>();
 
@@ -130,6 +134,7 @@ public class DriversMapActivity extends RootAnimActivity implements OnMapReadyCa
                 }
             }
         });
+
         mLogOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -205,6 +210,8 @@ public class DriversMapActivity extends RootAnimActivity implements OnMapReadyCa
         mProfileImage.setImageResource(R.drawable.ic_launcher_background);
 
     }
+
+
 
     private void recordRide(){
         String userId  = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -551,5 +558,24 @@ public class DriversMapActivity extends RootAnimActivity implements OnMapReadyCa
             line.remove();
         }
         polylines.clear();
+    }
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(receiver,new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            unregisterReceiver(receiver);
+        }catch (Exception e){
+            Log.i("Register  exception ",e+"");
+        }
+
     }
 }

@@ -1,11 +1,16 @@
 package com.example.chandora.rider;
 
 import android.content.Context;
+import android.content.IntentFilter;
+import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
+import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.chandora.rider.HistoryRecyclerView.HistoryAdapter;
 import com.example.chandora.rider.HistoryRecyclerView.HistoryObject;
@@ -25,6 +30,8 @@ public class HistoryActivity extends RootAnimActivity {
     private RecyclerView mRecyclerView;
     private HistoryAdapter adapter;
     private String customerOrDriver,userId;
+    private ProgressBar mProgressBar;
+    private GpsCheckBroadcasteReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +41,15 @@ public class HistoryActivity extends RootAnimActivity {
         getSupportActionBar().setTitle("Rides history");
 
         mRecyclerView = findViewById(R.id.recycler_view_history);
+        mProgressBar = findViewById(R.id.progressBar);
+        mProgressBar.setVisibility(View.VISIBLE);
 
         mRecyclerView.setNestedScrollingEnabled(true);
-       
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new HistoryAdapter(this,getDataSet());
         mRecyclerView.setAdapter(adapter);
+
+        receiver = new GpsCheckBroadcasteReceiver();
         adapter.notifyDataSetChanged();
 
         customerOrDriver = getIntent().getStringExtra("customerOrDriver");
@@ -84,6 +94,7 @@ public class HistoryActivity extends RootAnimActivity {
 
                    HistoryObject object = new HistoryObject(rideId,getDate(timestamp));
                    resultDataList.add(object);
+                   mProgressBar.setVisibility(View.GONE);
                    adapter.notifyDataSetChanged();
                 }
             }
@@ -106,5 +117,23 @@ public class HistoryActivity extends RootAnimActivity {
     private ArrayList<HistoryObject> resultDataList = new ArrayList<>();
     private ArrayList<HistoryObject> getDataSet() {
             return resultDataList;
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(receiver,new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            unregisterReceiver(receiver);
+        }catch (Exception e){
+            Log.i("Register  exception ",e+"");
+        }
+
     }
 }

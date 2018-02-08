@@ -54,16 +54,18 @@
 
         <activity
             android:name=".DriversMapActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:label="@string/title_activity_drivers_map" />
         <activity android:name=".CustomersMapActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:theme="@style/NoActionBarTheme"
             />
         <activity android:name=".DriverSettingsActivity" />
         <activity android:name=".HistoryActivity" />
         <activity android:name=".HistorySingleActivity" />
         <activity android:name=".RootAnimActivity"
             ></activity>
+        
+        <receiver android:name=".GpsCheckBroadcasteReceiver"/>
     </application>
 
 </manifest>

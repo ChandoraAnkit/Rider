@@ -1,8 +1,10 @@
 package com.example.chandora.rider;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -54,7 +56,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class CustomersMapActivity extends RootAnimActivity implements OnMapReadyCallback
+public class CustomersMapActivity extends AppCompatActivity implements OnMapReadyCallback
         , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     private static final String TAG = CustomersMapActivity.class.getSimpleName();
     private static final int REQUEST_CODE = 1;
@@ -86,6 +88,8 @@ public class CustomersMapActivity extends RootAnimActivity implements OnMapReady
     private LatLng destinationLatLng;
     private RatingBar mRatingBar;
 
+    private GpsCheckBroadcasteReceiver receiver;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +107,8 @@ public class CustomersMapActivity extends RootAnimActivity implements OnMapReady
         mRadioGroup = (RadioGroup) findViewById(R.id.radio_group_cust);
         mHistory = (Button) findViewById(R.id.btn_history_cust);
         mRatingBar = (RatingBar)findViewById(R.id.rating_bar_driv);
+
+        receiver = new GpsCheckBroadcasteReceiver();
 
         destinationLatLng = new LatLng(0.0,0.0);
 
@@ -547,4 +553,22 @@ public class CustomersMapActivity extends RootAnimActivity implements OnMapReady
         super.onStop();
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(receiver,new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            unregisterReceiver(receiver);
+        }catch (Exception e){
+            Log.i("Register  exception ",e+"");
+        }
+
+    }
+
 }

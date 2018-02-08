@@ -2,13 +2,16 @@ package com.example.chandora.rider;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,6 +58,7 @@ public class DriverSettingsActivity extends RootAnimActivity {
     private CircleImageView mProfileImage;
     private Uri imageUri;
     RadioGroup mRadioGroup;
+    private GpsCheckBroadcasteReceiver receiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,13 +70,13 @@ public class DriverSettingsActivity extends RootAnimActivity {
         mNameField = findViewById(R.id.name_driv);
         mPhoneField = findViewById(R.id.phone_driv);
         mCarField = findViewById(R.id.car_driv);
-
-
         mConfirm = findViewById(R.id.comfirm_driv);
 
 
         mProfileImage =(CircleImageView) findViewById(R.id.profile_image_driv);
         mRadioGroup = (RadioGroup) findViewById(R.id.radio_group);
+
+        receiver  = new GpsCheckBroadcasteReceiver();
 
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
@@ -227,4 +231,22 @@ public class DriverSettingsActivity extends RootAnimActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(receiver,new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            unregisterReceiver(receiver);
+        }catch (Exception e){
+            Log.i("Register  exception ",e+"");
+        }
+
+    }
+
 }

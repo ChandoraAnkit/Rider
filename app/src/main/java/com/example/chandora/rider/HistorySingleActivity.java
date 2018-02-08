@@ -1,5 +1,7 @@
 package com.example.chandora.rider;
 
+import android.content.IntentFilter;
+import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -54,6 +56,7 @@ public class HistorySingleActivity extends RootAnimActivity implements OnMapRead
     private String distance;
     private Double ridePrice;
     private RatingBar mRatingbar;
+    private GpsCheckBroadcasteReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,8 @@ public class HistorySingleActivity extends RootAnimActivity implements OnMapRead
         mDriverPhone = findViewById(R.id.history_driver_phone);
         mDriverPhoto = findViewById(R.id.history_driver_image);
         mRatingbar = findViewById(R.id.rating_bar);
+
+        receiver = new GpsCheckBroadcasteReceiver();
 
 
         polylines = new ArrayList<>();
@@ -271,6 +276,23 @@ public class HistorySingleActivity extends RootAnimActivity implements OnMapRead
     @Override
     public void onRoutingCancelled() {
         Log.i(TAG, "onRoutingCancelled: ");
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(receiver,new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            unregisterReceiver(receiver);
+        }catch (Exception e){
+            Log.i("Register  exception ",e+"");
+        }
 
     }
 
